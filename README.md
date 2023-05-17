@@ -6,3 +6,4 @@ Course hosted by the Department of Computer Science at the University of Helsink
 ## Exercise Submissions
 
 ### [Part 0 - Fundamentals of Web apps](./part0)
+### [Part 1 - Introduction to React](./part1/)
