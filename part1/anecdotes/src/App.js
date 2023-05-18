@@ -34,14 +34,13 @@ const App = () => {
   const [votes, setVotes] = useState(Array.from(anecdotes, () => 0));
 
   const maxVotes = Math.max(...votes)
-  const maxVoted = anecdotes.filter((value, index) => votes[index] === maxVotes)[0]
 
   return (
     <div>
       <Section header="Anecdote of the day" anecdote={anecdotes[selected]} votes={votes[selected]} />
-      <Button text="vote" handleClick={() => UpdateVotes()}/>
+      <Button text="vote" handleClick={UpdateVotes}/>
       <Button text="next anecdote" handleClick={() => setSelected(RandInt(anecdotes.length))} />
-      <Section header="Anecdote with most votes" anecdote={maxVoted} votes={maxVotes} />
+      <Section header="Anecdote with most votes" anecdote={anecdotes[votes.indexOf(maxVotes)]} votes={maxVotes} />
     </div>
   )
 }
