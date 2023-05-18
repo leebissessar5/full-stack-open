@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const Section = ({header, anecdote, votes}) => (
+  <>
+    <h1>{header}</h1>
+    <div>{anecdote}</div>
+    <div>has {votes} votes</div>
+  </>
+)
+
 const Button = ({text, handleClick}) => (
   <button onClick={handleClick}>{text}</button>
 )
@@ -25,12 +33,15 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array.from(anecdotes, () => 0));
 
+  const maxVotes = Math.max(...votes)
+  const maxVoted = anecdotes.filter((value, index) => votes[index] === maxVotes)[0]
+
   return (
     <div>
-      <div>{anecdotes[selected]}</div>
-      <div>has {votes[selected]} votes</div>
+      <Section header="Anecdote of the day" anecdote={anecdotes[selected]} votes={votes[selected]} />
       <Button text="vote" handleClick={() => UpdateVotes()}/>
       <Button text="next anecdote" handleClick={() => setSelected(RandInt(anecdotes.length))} />
+      <Section header="Anecdote with most votes" anecdote={maxVoted} votes={maxVotes} />
     </div>
   )
 }
