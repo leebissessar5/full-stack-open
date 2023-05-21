@@ -13,6 +13,9 @@ const App = () => {
     if (duplicatePerson) {
       alert(`${newName} is already added to the phonebook.`);
     } else {
+      const newPerson = {
+        name: newName
+      };
       setPersons(persons.concat(newPerson));
     }
 
