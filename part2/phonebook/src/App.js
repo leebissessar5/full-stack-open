@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/person'
 
 const Filter = ({filterName, filterChange}) => (
   <div>
@@ -28,29 +28,27 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState('')
 
   useEffect(() => {
-    axios
-    .get("http://localhost:3001/persons")
-    .then(response => {
-      setPersons(response.data)
+    personService.getAll()
+    .then(personsList => {
+      setPersons(personsList)
     })
   }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    const duplicatePerson = persons.find(person => person.name === newName);
+    const duplicatePerson = persons.find(person => person.name === newName)
 
     if (duplicatePerson) {
-      alert(`${newName} is already added to the phonebook.`);
+      alert(`${newName} is already added to the phonebook.`)
     } else {
       const newPerson = {
         name: newName,
         number: newNumber,
         id: persons.length + 1
       };
-      axios
-      .post("http://localhost:3001/persons", newPerson)
-      .then(response => {
-        setPersons(persons.concat(response.data));
+      personService.create(newPerson)
+      .then(addedPerson => {
+        setPersons(persons.concat(addedPerson))
         setNewName('')
         setNewNumber('')
       })
