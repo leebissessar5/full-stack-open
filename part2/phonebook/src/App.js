@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react'
 import personService from './services/person'
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
+
 const Filter = ({filterName, filterChange}) => (
   <div>
     filter shown with <input value={filterName} onChange={filterChange}/>
@@ -33,6 +45,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nameFilter, setNameFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll()
@@ -56,6 +69,12 @@ const App = () => {
           setPersons(persons.map(person =>
             person.id === updatedPerson.id ? updatedPerson : person
           ));
+          setErrorMessage(
+            `Changed Phone Number of ${newName}`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
           setNewName('');
           setNewNumber('');
         })
@@ -69,6 +88,12 @@ const App = () => {
       personService.create(newPerson)
       .then(addedPerson => {
         setPersons(persons.concat(addedPerson))
+        setErrorMessage(
+          `Added ${newName}`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
       })
@@ -93,6 +118,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={errorMessage} />
 
       <Filter filterName={nameFilter} filterChange={handleFilterChange} />
 
