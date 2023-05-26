@@ -1,44 +1,9 @@
 import { useState, useEffect } from 'react'
 import personService from './services/person'
-
-const Notification = ({ message, type }) => {
-  if (message === null) {
-    return null
-  }
-
-  return (
-    <div className={type}>
-      {message}
-    </div>
-  )
-}
-
-const Filter = ({filterName, filterChange}) => (
-  <div>
-    filter shown with <input value={filterName} onChange={filterChange}/>
-  </div>
-)
-
-const PersonForm = (props) => (
-  <form onSubmit={props.addPerson}>
-    <div>name: <input value={props.name} onChange={props.nameChange}/></div>
-    <div>number: <input value={props.number} onChange={props.numberChange}/></div>
-    <div><button type="submit">add</button></div>
-  </form>
-)
-
-const Persons = ({persons, deleteFcn}) => {
-  return (
-    <>
-      {persons.map(person => 
-      <div key={person.id}>
-        {person.name} {person.number}
-        <button onClick={() => deleteFcn(person.id, person.name)}> delete</button>
-        </div>
-        )}
-    </> 
-  )
-}
+import Notification from './components/Notification'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -58,7 +23,7 @@ const App = () => {
   const showNotification = (notification, setNotification) => {
     setNotification(notification)
     setTimeout(() => {
-      setErrorMessage(null)
+      setNotification(null)
     }, 5000)
   }
 
@@ -68,7 +33,7 @@ const App = () => {
 
     if (duplicatePerson) {
       if (duplicatePerson.number === newNumber) {
-        alert(`${newName} is already added to the phonebook.`)
+        alert(`${newName} is already added to the phonebook`)
       }
       else if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         const updatedPerson = {...duplicatePerson, number: newNumber }
