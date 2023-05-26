@@ -30,7 +30,7 @@ const WeatherInfo = ({query}) => {
   
 const CountryInfo = ({country}) => {
     const flagStyle = {
-        width: '20%'
+        width: '15%'
     }
 
     return (
