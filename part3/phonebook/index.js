@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-const entries = [
+const persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -25,11 +25,11 @@ const entries = [
 ]
 
 app.get("/api/persons", (request, response) => {
-    response.json(entries)
+    response.json(persons)
 })
 
 app.get('/info', (request, response) => {
-  const length = entries.length
+  const length = persons.length
   const date = new Date().toString()
   
   response.send(
@@ -41,6 +41,17 @@ app.get('/info', (request, response) => {
       ${date}
     </div>`
     )
+})
+
+app.get("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id)
+  const person = persons.find(person => person.id === id)
+    
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
 })
 
 const PORT = 3001
