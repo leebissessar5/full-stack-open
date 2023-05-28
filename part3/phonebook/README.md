@@ -1,10 +1,10 @@
-# Phonebook API <!-- omit in toc -->
+# Introduction <!-- omit in toc -->
 
-This is the documentation for the Phonebook API. It provides endpoints for managing a phonebook with person entries. The API is deployed on Render at https://phonebook-backend-jom2.onrender.com.
+This is the documentation for the phonebook exercise in Part 3.
 
 # Table of Contents <!-- omit in toc -->
 - [Getting Started](#getting-started)
-- [Endpoints](#endpoints)
+- [Endpoints for API](#endpoints-for-api)
   - [List all Persons](#list-all-persons)
   - [Get a Person by ID](#get-a-person-by-id)
   - [Add a New Person](#add-a-new-person)
@@ -13,11 +13,13 @@ This is the documentation for the Phonebook API. It provides endpoints for manag
 
 ## Getting Started
 
+The main website is deployed on [Render](https://phonebook-backend-jom2.onrender.com).
+
+## Endpoints for API
+
 To get started with the Phonebook API, you can use any HTTP client or tool of your choice, such as cURL, Postman, or JavaScript's ```fetch()```.
 
-Base URL: [phonebook-backend](https://phonebook-backend-jom2.onrender.com/api)
-
-## Endpoints
+Base URL: https://phonebook-backend-jom2.onrender.com/api
 
 ### List all Persons
 
