@@ -45,7 +45,7 @@ GET /api/persons
     "name": "Ada Lovelace",
     "number": "39-44-5323523"
   },
-  ...
+  // ...
 ]
 ```
 
