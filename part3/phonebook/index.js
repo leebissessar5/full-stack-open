@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -8,9 +7,9 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 app.use(cors())
+app.use(express.json())
 app.use(express.static('build'))
 
-app.use(express.json())
 morgan.token('body', (req) => JSON.stringify(req.body))
 
 app.use(morgan('tiny', {
@@ -80,22 +79,11 @@ app.post('/api/persons',
   (request, response, next) => {
     const body = request.body
 
-    // Check if a person with the same name already exists
-    Person.findOne({ name: body.name })
-      .then(existingPerson => {
-        if (existingPerson) {
-          return response.status(400).json({
-            error: 'Name must be unique'
-          })
-        }
+    const person = new Person({ ...body })
 
-        const person = new Person({ ...body })
-
-        person.save()
-          .then(savedPerson => {
-            response.json(savedPerson)
-          })
-          .catch(error => next(error))
+    person.save()
+      .then(savedPerson => {
+        response.json(savedPerson)
       })
       .catch(error => next(error))
   })
