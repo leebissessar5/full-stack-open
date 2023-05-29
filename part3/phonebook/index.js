@@ -10,8 +10,6 @@ const PORT = process.env.PORT || 3001
 app.use(cors())
 app.use(express.static('build'))
 
-let persons = []
-
 app.use(express.json())
 morgan.token('body', getBody = (req) => JSON.stringify(req.body))
 
@@ -68,7 +66,9 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   const person = { ...body }
 
-  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+  Person.findByIdAndUpdate(
+    request.params.id, person, 
+    { new: true , runValidators: true, context: 'query'})
     .then(updatedPerson => {
       response.json(updatedPerson)
     })
@@ -77,14 +77,9 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons',
 morgan(':method :url :status :res[content-length] - :response-time ms :body '),
-(request, response) => {
+(request, response, next) => {
   const body = request.body
 
-  if (!body.name) {
-    return response.status(400).json({ 
-      error: 'name field (person\'s full name) missing' 
-    })
-  }
   if (!body.number) {
     return response.status(400).json({ 
       error: 'number field (person\'s phone number) missing' 
@@ -99,9 +94,11 @@ morgan(':method :url :status :res[content-length] - :response-time ms :body '),
 
   const person = new Person({...body})
 
-  person.save().then(savedPerson => {
+  person.save()
+  .then(savedPerson => {
     response.json(savedPerson)
   })
+  .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
