@@ -80,11 +80,6 @@ morgan(':method :url :status :res[content-length] - :response-time ms :body '),
 (request, response, next) => {
   const body = request.body
 
-  if (!body.number) {
-    return response.status(400).json({ 
-      error: 'number field (person\'s phone number) missing' 
-    })
-  }
   // needs mongoose implementation
   // if (persons.find(person => person.name === body.name)) {
   //   return response.status(400).json({

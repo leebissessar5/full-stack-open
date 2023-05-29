@@ -46,6 +46,7 @@ const App = () => {
           setNewName('');
           setNewNumber('');
         })
+        .catch(error => showNotification(error.response.data.error, setErrorMessage))
       }
     } else {
       const newPerson = {
