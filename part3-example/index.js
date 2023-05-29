@@ -3,13 +3,10 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const Note = require('./models/note')
-
 const PORT = process.env.PORT
 
 app.use(cors())
 app.use(express.static('build'))
-
-let notes = []
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -33,18 +30,18 @@ app.get('/api/notes', (request, response) => {
 
 app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id).then(note => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
+    if (note) {
+      response.json(note)
+    } else {
+      response.status(404).end()
+    }
+  })
     .catch(error => next(error))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -59,24 +56,24 @@ app.post('/api/notes', (request, response, next) => {
   })
 
   note.save()
-  .then(savedNote => {
-    response.json(savedNote)
-  })
-  .catch(error => next(error))
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
   const { content, important } = request.body
 
   Note.findByIdAndUpdate(
-    request.params.id, 
+    request.params.id,
     { content, important },
     { new: true, runValidators: true, context: 'query' }
-  ) 
-  .then(updatedNote => {
-    response.json(updatedNote)
-  })
-  .catch(error => next(error))
+  )
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -90,7 +87,7 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
   else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
