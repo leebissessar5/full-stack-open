@@ -93,19 +93,18 @@ morgan(':method :url :status :res[content-length] - :response-time ms :body '),
       error: 'number field (person\'s phone number) missing' 
     })
   }
-  if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
+  // needs mongoose implementation
+  // if (persons.find(person => person.name === body.name)) {
+  //   return response.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
 
-  const person = {
-    ...body,
-    id: generateId()
-  }
+  const person = new Person({...body})
 
-  persons = persons.concat(person)
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 app.listen(PORT, () => {
