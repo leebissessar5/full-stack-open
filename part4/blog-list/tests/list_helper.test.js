@@ -119,3 +119,32 @@ describe('favorite blog', () => {
     }
   )
 })
+
+describe('mostBlogs', () => {
+  test('when list is empty, return empty object',
+    () => {
+      const result = listHelper.mostBlogs([ ])
+      expect(result).toEqual({ })
+    })
+
+  test('when list has only one blog, return blog count of 1',
+    () => {
+      const result = listHelper.mostBlogs(listWithOneBlog)
+      const answer = {
+        author: listWithOneBlog[0].author,
+        blogs: 1
+      }
+      expect(result).toEqual(answer)
+    }
+  )
+
+  test('of a bigger list is calculated right',
+    () => {
+      const result = listHelper.mostBlogs(blogs)
+      const answer =  {
+        author: 'Robert C. Martin',
+        blogs: 3
+      }
+      expect(result).toEqual(answer)
+    })
+})
