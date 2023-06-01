@@ -11,7 +11,7 @@ const blogSchema = new mongoose.Schema({
   likes: Number
 })
 
-const Blog = mongoose.model('Blog', blogSchema)
+const Blog = require('./models/blog')
 
 const mongoUrl = process.env.MONGODB_URI
 mongoose.connect(mongoUrl)
