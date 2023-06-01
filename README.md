@@ -9,3 +9,4 @@ Course hosted by the Department of Computer Science at the University of Helsink
 ### [Part 1 - Introduction to React](./part1/)
 ### [Part 2 - Communicating with server](./part2/)
 ### [Part 3 - Programming a server with NodeJS and Express](./part3/)
+### [Part 4 - Testing Express servers, user administration](./part4/)
