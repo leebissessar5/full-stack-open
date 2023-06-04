@@ -16,78 +16,84 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+describe('validate GET requests', () => {
+
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('all blogs are returned', async () => {
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(helper.blogs.length)
+  })
+
+  test('unique identifier is named \'id\'', async () => {
+    const blogs = await helper.blogsInDb()
+
+    const promiseArray = blogs.map(blog => expect(blog.id).toBeDefined())
+    await Promise.all(promiseArray)
+  })
 })
 
-test('all blogs are returned', async () => {
-  const response = await api.get('/api/blogs')
+describe('addition of a new blog', () => {
 
-  expect(response.body).toHaveLength(helper.blogs.length)
-})
+  test('a valid blog can be added ', async () => {
+    const { title, author, url, likes } = helper.listWithOneBlog[0]
+    const newBlog = { title, author, url, likes }
 
-test('unique identifier is named \'id\'', async () => {
-  const blogs = await helper.blogsInDb()
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  const promiseArray = blogs.map(blog => expect(blog.id).toBeDefined())
-  await Promise.all(promiseArray)
-})
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
 
-test('a valid blog can be added ', async () => {
-  const { title, author, url, likes } = helper.listWithOneBlog[0]
-  const newBlog = { title, author, url, likes }
+    const titleQuery = blogsAtEnd.map(n => n.title)
+    expect(titleQuery).toContain(
+      helper.listWithOneBlog[0].title
+    )
+  })
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+  test('blog without likes is defaulted to 0', async () => {
+    const { title, author, url } = helper.listWithOneBlog[0]
+    const newBlog = { title, author, url }
 
-  const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
 
-  const titleQuery = blogsAtEnd.map(n => n.title)
-  expect(titleQuery).toContain(
-    helper.listWithOneBlog[0].title
-  )
-})
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
 
-test('blog without likes is defaulted to 0', async () => {
-  const { title, author, url } = helper.listWithOneBlog[0]
-  const newBlog = { title, author, url }
+    expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toEqual(0)
+  })
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
+  test('blog without title or url is not added', async () => {
+    const { title, author, url, likes } = helper.listWithOneBlog[0]
 
-  const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
+    // send without title
+    await api
+      .post('/api/blogs')
+      .send({ author, url, likes })
+      .expect(400)
 
-  expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toEqual(0)
-})
+    // send without url
+    await api
+      .post('/api/blogs')
+      .send({ title, author, likes })
+      .expect(400)
 
-test('blog without title or url is not added', async () => {
-  const { title, author, url, likes } = helper.listWithOneBlog[0]
+    const blogsAtEnd = await helper.blogsInDb()
 
-  // send without title
-  await api
-    .post('/api/blogs')
-    .send({ author, url, likes })
-    .expect(400)
-
-  // send without url
-  await api
-    .post('/api/blogs')
-    .send({ title, author, likes })
-    .expect(400)
-
-  const blogsAtEnd = await helper.blogsInDb()
-
-  expect(blogsAtEnd).toHaveLength(helper.blogs.length)
+    expect(blogsAtEnd).toHaveLength(helper.blogs.length)
+  })
 })
 
 describe('deletion of a blog', () => {
