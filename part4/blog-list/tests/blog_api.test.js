@@ -70,6 +70,26 @@ test('blog without likes is defaulted to 0', async () => {
   expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toEqual(0)
 })
 
+test('blog without title or url is not added', async () => {
+  const { title, author, url, likes } = helper.listWithOneBlog[0]
+
+  // send without title
+  await api
+    .post('/api/blogs')
+    .send({ author, url, likes })
+    .expect(400)
+
+  // send without url
+  await api
+    .post('/api/blogs')
+    .send({ title, author, likes })
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(helper.blogs.length)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
