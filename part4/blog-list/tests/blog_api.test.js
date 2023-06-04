@@ -117,6 +117,28 @@ describe('deletion of a blog', () => {
   })
 })
 
+describe('modification of an existing blog', () => {
+  test('modify a blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    // verify initial likes is 7
+    expect(blogsAtStart[0].likes).toEqual(7)
+
+    const blogToModify = {
+      ...blogsAtStart[0], likes: 10
+    }
+
+    await api
+      .put(`/api/blogs/${blogToModify.id}`)
+      .send(blogToModify)
+      .expect(200)
+
+    const blogsAfter = await helper.blogsInDb()
+    const modifiedBlog = blogsAfter.find(blog => blog.id === blogToModify.id)
+
+    expect(modifiedBlog.likes).toEqual(10)
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
