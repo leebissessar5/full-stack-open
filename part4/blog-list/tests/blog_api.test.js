@@ -55,6 +55,21 @@ test('a valid blog can be added ', async () => {
   )
 })
 
+test('blog without likes is defaulted to 0', async () => {
+  const { title, author, url } = helper.listWithOneBlog[0]
+  const newBlog = { title, author, url }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
+
+  expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toEqual(0)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
