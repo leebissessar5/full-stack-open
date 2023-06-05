@@ -14,8 +14,7 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(401).json({ error: 'token invalid' })
   }
 
-  const userId = request.user.id
-  const user = await User.findById(userId)
+  const user = await User.findById(request.user.id)
 
   const blog = new Blog({
     ...request.body,
@@ -40,8 +39,17 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  if (!request.user || !request.user.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(request.user.id)
+  const blogToDelete = await Blog.findById(request.params.id)
+  if (blogToDelete.user._id.toString() === user._id.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } else {
+    return response.status(401).json({ error: 'Unauthorized operation' })
+  }
 })
 
 blogsRouter.put('/:id', async (request, response) => {
