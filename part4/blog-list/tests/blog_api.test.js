@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
 
+const app = require('../app')
 const api = supertest(app)
 
+const helper = require('./test_helper')
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const helper = require('./test_helper')
 
 let token // Variable to store the bearer token
 
@@ -44,7 +44,6 @@ describe('validate GET requests', () => {
 
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
-
     expect(response.body).toHaveLength(helper.blogs.length)
   })
 
@@ -68,13 +67,13 @@ describe('addition of a new blog', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
+    // Checked if added
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
-
     const titleQuery = blogsAtEnd.map(n => n.title)
-    expect(titleQuery).toContain(
-      helper.listWithOneBlog[0].title
-    )
+    expect(titleQuery).toContain(helper.listWithOneBlog[0].title)
+
+    // Even if duplicate entry
+    expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
   })
 
   test('blog without likes is defaulted to 0', async () => {
@@ -89,7 +88,6 @@ describe('addition of a new blog', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.blogs.length + 1)
-
     expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toEqual(0)
   })
 
@@ -127,13 +125,9 @@ describe('deletion of a blog', () => {
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
-
-    expect(blogsAtEnd).toHaveLength(
-      helper.blogs.length - 1
-    )
+    expect(blogsAtEnd).toHaveLength(helper.blogs.length - 1)
 
     const title = blogsAtEnd.map(r => r.title)
-
     expect(title).not.toContain(blogToDelete.title)
   })
 })
@@ -142,9 +136,7 @@ describe('modification of an existing blog', () => {
   test('modify a blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
 
-    const blogToModify = {
-      ...blogsAtStart[0], likes: 10
-    }
+    const blogToModify = { ...blogsAtStart[0], likes: 10 }
 
     await api
       .put(`/api/blogs/${blogToModify.id}`)

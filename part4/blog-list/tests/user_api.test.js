@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const bcrypt = require('bcryptjs')
 
 const app = require('../app')
-
 const api = supertest(app)
 
 const User = require('../models/user')
@@ -35,8 +34,12 @@ describe('addition of a new user', () => {
       .send({ username, name, password })
       .expect(201)
 
+    // Check if added
     const usersAtEnd = await helper.usersInDb()
+    const usernameQuery = usersAtEnd.map(n => n.username)
+    expect(usernameQuery).toContain(username)
 
+    // Even if duplicate entry
     expect(usersAtEnd).toHaveLength(helper.users.length + 1)
   })
 
@@ -54,7 +57,6 @@ describe('addition of a new user', () => {
       .expect(400)
 
     const usersAtEnd = await helper.usersInDb()
-
     expect(usersAtEnd).toHaveLength(helper.users.length)
   })
 
@@ -67,7 +69,6 @@ describe('addition of a new user', () => {
       .expect(400)
 
     const usersAtEnd = await helper.usersInDb()
-
     expect(usersAtEnd).toHaveLength(helper.users.length)
   })
 
@@ -84,7 +85,6 @@ describe('addition of a new user', () => {
       .expect(400)
 
     const usersAtEnd = await helper.usersInDb()
-
     expect(usersAtEnd).toHaveLength(helper.users.length)
   })
 })
