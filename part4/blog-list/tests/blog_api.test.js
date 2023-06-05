@@ -8,10 +8,11 @@ const helper = require('./test_helper')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-let token // Variable to store the bearer token
+let token
+let wrongToken
 
 beforeAll(async () => {
-  // Perform login to obtain the bearer token
+  // Perform login to obtain the bearer token for the authorized user
   const credentials = {
     username: 'robertmartin1',
     password: 'password123'
@@ -21,7 +22,19 @@ beforeAll(async () => {
     .post('/api/login')
     .send(credentials)
 
-  token = response.body.token // Retrieve the bearer token from the response
+  token = response.body.token
+
+  // Perform login to obtain the wrong bearer token for another user
+  const wrongCredentials = {
+    username: 'edsger',
+    password: 'securepass'
+  }
+
+  const wrongResponse = await api
+    .post('/api/login')
+    .send(wrongCredentials)
+
+  wrongToken = wrongResponse.body.token
 })
 
 beforeEach(async () => {
@@ -109,7 +122,6 @@ describe('addition of a new blog', () => {
       .expect(400)
 
     const blogsAtEnd = await helper.blogsInDb()
-
     expect(blogsAtEnd).toHaveLength(helper.blogs.length)
   })
 })
@@ -124,11 +136,27 @@ describe('deletion of a blog', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(204)
 
+    // check if size reduced
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.blogs.length - 1)
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
 
+    // check if blog is gone
     const title = blogsAtEnd.map(r => r.title)
     expect(title).not.toContain(blogToDelete.title)
+  })
+
+  test('fails with status code 401 if authorization token is from the wrong user', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `Bearer ${wrongToken}`)
+      .expect(401)
+
+    // blogs were not deleted
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
   })
 })
 
