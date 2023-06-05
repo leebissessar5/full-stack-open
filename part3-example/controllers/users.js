@@ -25,5 +25,3 @@ usersRouter.get('/', async (request, response) => {
 })
 
 module.exports = usersRouter
-
-module.exports = usersRouter
