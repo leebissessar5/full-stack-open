@@ -12,8 +12,8 @@ beforeEach(async () => {
 
   const blogObjects = helper.blogs
     .map(blog => new Blog(blog))
-  const promiseArray2 = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray2)
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 

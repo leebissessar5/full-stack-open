@@ -65,18 +65,18 @@ const blogs = [
 
 const users = [
   {
-    username: 'john123',
-    name: 'John Doe',
+    username: 'robertmartin1',
+    name: 'Robert Martin',
     password: 'password123'
   },
   {
-    username: 'jane456',
-    name: 'Jane Smith',
+    username: 'edsger',
+    name: 'Edsger Dijkstra',
     password: 'securepass'
   },
   {
-    username: 'alex789',
-    name: 'Alex Johnson',
+    username: 'mikey',
+    name: 'Michael Chan',
     password: '123456'
   }
 ]
