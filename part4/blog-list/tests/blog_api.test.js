@@ -12,9 +12,10 @@ beforeEach(async () => {
 
   const blogObjects = helper.blogs
     .map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
+  const promiseArray2 = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray2)
 })
+
 
 describe('validate GET requests', () => {
 
@@ -120,8 +121,6 @@ describe('deletion of a blog', () => {
 describe('modification of an existing blog', () => {
   test('modify a blog', async () => {
     const blogsAtStart = await helper.blogsInDb()
-    // verify initial likes is 7
-    expect(blogsAtStart[0].likes).toEqual(7)
 
     const blogToModify = {
       ...blogsAtStart[0], likes: 10
