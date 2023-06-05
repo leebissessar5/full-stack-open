@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
 const bcrypt = require('bcryptjs')
+
+const app = require('../app')
 
 const api = supertest(app)
 
@@ -22,13 +23,24 @@ beforeEach(async () => {
 })
 
 describe('addition of a new user', () => {
-  test('user without username or password is not added', async () => {
-    const { username, name, password } = {
-      'username': 'Test',
-      'name': 'Test User',
-      'password': 'testpassword'
-    }
+  const { username, name, password } = {
+    'username': 'Test',
+    'name': 'Test User',
+    'password': 'testpassword'
+  }
 
+  test('add valid user', async () => {
+    await api
+      .post('/api/users')
+      .send({ username, name, password })
+      .expect(201)
+
+    const usersAtEnd = await helper.usersInDb()
+
+    expect(usersAtEnd).toHaveLength(helper.users.length + 1)
+  })
+
+  test('user without username or password is not added', async () => {
     // send without username
     await api
       .post('/api/users')
