@@ -12,10 +12,17 @@ const App = () => {
     url: ""
   })
   const [errorMessage, setErrorMessage] = useState(null)
+  const [infoMessage, setInfoMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
-
   const [user, setUser] = useState(null)
+
+  const showNotification = (notification, setNotification) => {
+    setNotification(notification)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -31,11 +38,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      showNotification('login success', setInfoMessage)
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      showNotification('wrong username or password', setErrorMessage)
     }
   }
 
@@ -72,20 +77,23 @@ const App = () => {
     </form>      
   )
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
-
-    blogService
-      .create(newBlog)
-        .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewBlog({
-          title: "",
-          author: "",
-          url: ""
-        })
+  
+    try {
+      const returnedBlog = await blogService.create(newBlog)
+      setBlogs(blogs.concat(returnedBlog))
+      setNewBlog({
+        title: "",
+        author: "",
+        url: ""
       })
-  }
+  
+      showNotification(`a new blog ${newBlog.title} by ${newBlog.author} successfully added`, setInfoMessage)
+    } catch (error) {
+      showNotification("Failed to add new blog", setErrorMessage)
+    }
+  }  
 
   const blogForm = () => (
     <form onSubmit={addBlog}>
@@ -146,7 +154,8 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} type="error"/>
+      <Notification message={infoMessage}  type="info"/>
       {!user && loginForm()}
       <h2>blogs</h2>
       {user && loginInfo()}
