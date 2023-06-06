@@ -6,6 +6,11 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState({
+    title: "",
+    author: "",
+    url: ""
+  })
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
@@ -67,6 +72,55 @@ const App = () => {
     </form>      
   )
 
+  const addBlog = (event) => {
+    event.preventDefault()
+
+    blogService
+      .create(newBlog)
+        .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setNewBlog({
+          title: "",
+          author: "",
+          url: ""
+        })
+      })
+  }
+
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <h2>create new</h2>
+      <div>
+        title:
+          <input
+          type="text"
+          value={newBlog.title}
+          name="Title"
+          onChange={({ target }) => setNewBlog({...newBlog, title: target.value})}
+        />
+      </div>
+      <div>
+        author:
+          <input
+          type="text"
+          value={newBlog.author}
+          name="Author"
+          onChange={({ target }) => setNewBlog({...newBlog, author: target.value})}
+        />
+      </div>
+      <div>
+        url:
+          <input
+          type="text"
+          value={newBlog.url}
+          name="URL"
+          onChange={({ target }) => setNewBlog({...newBlog, url: target.value})}
+        />
+      </div>
+      <button type="submit">create</button>
+    </form>  
+  )
+
   const handleLogout = (event) => {
     event.preventDefault()
 
@@ -75,10 +129,13 @@ const App = () => {
   }
 
   const loginInfo = () => (
-    <form onSubmit={handleLogout}>
-      <p>{user.name} logged in
-      <button type="submit">logout</button></p>
-    </form>
+    <div>
+      <form onSubmit={handleLogout}>
+        <p>{user.name} logged in
+        <button type="submit">logout</button></p>
+      </form>
+      {blogForm()}
+    </div>
   )
 
   useEffect(() => {
