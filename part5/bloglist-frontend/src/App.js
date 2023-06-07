@@ -109,9 +109,10 @@ const App = () => {
 
   const getBlogs = async () => {
     const allBlogs = await blogService.getAll()
-    setBlogs(allBlogs)
+    const sortedBlogs = allBlogs.sort((a, b) => b.likes - a.likes)
+    setBlogs(sortedBlogs)
   }
-
+  
   return (
     <div>
       <Notification message={errorMessage} type="error"/>
