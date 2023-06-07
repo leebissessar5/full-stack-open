@@ -37,7 +37,14 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
           <div>{blog.url}</div>
           <div>likes {blog.likes} {user && <button onClick={updateLikes}>like</button>}</div>
           <div>{blog.user.name}</div>
-          {user && (user.username === blog.user.username) && <button onClick={() => deleteHandler(blog.id)}>remove</button>}
+          {user 
+          && (user.username === blog.user.username) 
+          && <button onClick={() => { 
+            if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+              deleteHandler(blog.id)
+            }   
+          }
+          }>remove</button>}
         </div>
       </div>
       }
