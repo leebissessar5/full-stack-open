@@ -48,6 +48,7 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
+    getBlogs()
   }, [])
 
   const loginForm = () => (
@@ -76,8 +77,8 @@ const App = () => {
 
   const addBlog = async (blogObject) => { 
     try {
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
+      await blogService.create(blogObject)
+      getBlogs()
   
       showNotification(`a new blog ${blogObject.title} by ${blogObject.author} successfully added`, setInfoMessage)
     } catch (error) {
@@ -101,11 +102,10 @@ const App = () => {
     </div>
   )
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [blogs])
+  const getBlogs = async () => {
+    const allBlogs = await blogService.getAll()
+    setBlogs(allBlogs)
+  }
 
   return (
     <div>
