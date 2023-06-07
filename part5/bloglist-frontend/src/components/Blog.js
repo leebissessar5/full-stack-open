@@ -12,7 +12,7 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
   }
 
   const updateLikes = () => {
-    likesHandler({ 
+    likesHandler({
       title: blog.title,
       author: blog.author,
       url: blog.url,
@@ -26,29 +26,29 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
   return (
     <div style={blogStyle}>
       <div>
-        {blog.title} {blog.author} 
+        {blog.title} {blog.author}
         <button onClick={toggleVisibility}>
-          {visible ? "hide" : "view"}
+          {visible ? 'hide' : 'view'}
         </button>
       </div>
-      {visible && 
+      {visible &&
       <div>
-          <div>
+        <div>
           <div>{blog.url}</div>
           <div>likes {blog.likes} {user && <button onClick={updateLikes}>like</button>}</div>
           <div>{blog.user.name}</div>
-          {user 
-          && (user.username === blog.user.username) 
-          && <button onClick={() => { 
+          {user
+          && (user.username === blog.user.username)
+          && <button onClick={() => {
             if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
               deleteHandler(blog.id)
-            }   
+            }
           }
           }>remove</button>}
         </div>
       </div>
       }
-  </div>
-)}
+    </div>
+  )}
 
 export default Blog

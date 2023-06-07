@@ -21,12 +21,12 @@ const App = () => {
   }
 
   const handleLogin = async (username, password) => {
-    
+
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       showNotification('login success', setInfoMessage)
@@ -45,14 +45,14 @@ const App = () => {
     getBlogs()
   }, [])
 
-  const addBlog = async (blogObject) => { 
+  const addBlog = async (blogObject) => {
     try {
       await blogService.create(blogObject)
       getBlogs()
-  
+
       showNotification(`a new blog ${blogObject.title} by ${blogObject.author} successfully added`, setInfoMessage)
     } catch (error) {
-      showNotification("Failed to add new blog", setErrorMessage)
+      showNotification('Failed to add new blog', setErrorMessage)
     }
   }
 
@@ -77,7 +77,7 @@ const App = () => {
     <div>
       <form onSubmit={handleLogout}>
         <p>{user.name} logged in
-        <button type="submit">logout</button></p>
+          <button type="submit">logout</button></p>
       </form>
     </div>
   )
@@ -87,7 +87,7 @@ const App = () => {
     const sortedBlogs = allBlogs.sort((a, b) => b.likes - a.likes)
     setBlogs(sortedBlogs)
   }
-  
+
   return (
     <div>
       <Notification message={errorMessage} type="error"/>
