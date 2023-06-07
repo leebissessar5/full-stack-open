@@ -86,6 +86,11 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (blog, id) => {
+    await blogService.update(blog, id)
+    getBlogs()
+  }
+
   const handleLogout = (event) => {
     event.preventDefault()
 
@@ -118,7 +123,7 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likesHandler={updateBlog}/>
       )}
     </div>
   )

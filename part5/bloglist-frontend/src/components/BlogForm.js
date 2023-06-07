@@ -16,7 +16,7 @@ const BlogForm = ({ createBlog }) => {
             author: "",
             url: ""
         })
-      }
+    }
 
     return (
         <form onSubmit={addBlog}>

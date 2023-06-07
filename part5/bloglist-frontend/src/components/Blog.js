@@ -1,14 +1,14 @@
 import { useState } from 'react'
 
-const BlogInfo = ({ url, likes, name }) => (
+const BlogInfo = ({ url, likes, name, updateLikes }) => (
   <div>
     <div>{url}</div>
-    <div>likes {likes} <button>like</button></div>
+    <div>likes {likes} <button onClick={updateLikes}>like</button></div>
     <div>{name}</div>
   </div>
 )
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likesHandler }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -17,6 +17,14 @@ const Blog = ({ blog }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const updateLikes = () => {
+    likesHandler({ 
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1 }, blog.id)
   }
 
   const toggleVisibility = () => {
@@ -31,7 +39,7 @@ const Blog = ({ blog }) => {
           {visible ? "hide" : "view"}
         </button>
       </div>
-      {visible && <BlogInfo url={blog.url} likes={blog.likes} name={blog.user.name}/>}
+      {visible && <BlogInfo url={blog.url} likes={blog.likes} name={blog.user.name} updateLikes={updateLikes}/>}
   </div>
 )}
 
