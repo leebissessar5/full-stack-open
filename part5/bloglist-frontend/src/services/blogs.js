@@ -7,12 +7,12 @@ const setToken = (newToken) => {
   token = `Bearer ${newToken}`
 }
 
-const config = {
-  headers: { Authorization: token },
-}
+const config = (token) => (
+  { headers: { Authorization: token } }
+)
 
 const create = async (newObject) => {
-  const response = await axios.post(baseUrl, newObject, config)
+  const response = await axios.post(baseUrl, newObject, config(token))
   return response.data
 }
 
@@ -22,9 +22,14 @@ const getAll = async () => {
 }
 
 const update = async (blogObject, id) => {
-  const response = await axios.put(`${baseUrl}/${id}`, blogObject, config)
+  const response = await axios.put(`${baseUrl}/${id}`, blogObject, config(token))
+  return response.data
+}
+
+const remove = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`, config(token))
   return response.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken, update }
+export default { getAll, create, setToken, update, remove }
