@@ -35,5 +35,20 @@ describe('Blog', () => {
         .and('have.css', 'border-style', 'solid')
       cy.get('html').should('not.contain', 'John Doe logged in')
     })
+
+    describe('When logged in', function() {
+      beforeEach(function() {
+        cy.login({ username: 'johndoe', password: 'weakpassword' })
+      })
+
+      it('A blog can be created', function() {
+        cy.contains('new blog').click()
+        cy.get('#title-field').type('a blog created by cypress')
+        cy.get('#author-field').type('cypress')
+        cy.get('#url-field').type('https://example.com')
+        cy.get('#create-button').click()
+        cy.contains('a blog created by cypress')
+      })
+    })
   })
 })
