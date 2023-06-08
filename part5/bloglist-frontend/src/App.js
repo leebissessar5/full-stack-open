@@ -95,9 +95,9 @@ const App = () => {
       {!user && <LoginForm handleLogin={handleLogin}/>}
       <h2>blogs</h2>
       {user && loginInfo()}
-      <Togglable buttonLabel="new note">
+      {user && <Togglable buttonLabel="new note">
         <BlogForm createBlog={addBlog} />
-      </Togglable>
+      </Togglable>}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} user={user} likesHandler={updateBlog} deleteHandler={removeBlog}/>
       )}
