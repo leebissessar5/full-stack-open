@@ -49,6 +49,28 @@ describe('Blog', () => {
         cy.get('#create-button').click()
         cy.contains('a blog created by cypress')
       })
+
+      describe('and a blog exists', function () {
+        beforeEach(function () {
+          cy.createBlog({ title: 'first blog', author: 'cypress', url: 'http://example.com' })
+          cy.createBlog({ title: 'second blog', author: 'cypress', url: 'http://example.com' })
+          cy.createBlog({ title: 'third blog', author: 'cypress', url: 'http://example.com' })
+        })
+
+        it('users can like blogs', function () {
+          // expand blog info
+          cy.contains('second blog').parent().find('button').contains('view').click()
+          cy.contains('second blog').parent().contains('likes 0')
+
+          // likes should be 1 after initial click
+          cy.contains('second blog').parent().find('button').contains('like').click()
+          cy.contains('second blog').parent().contains('likes 1')
+
+          // test a second time
+          cy.contains('second blog').parent().find('button').contains('like').click()
+          cy.contains('second blog').parent().contains('likes 2')
+        })
+      })
     })
   })
 })
