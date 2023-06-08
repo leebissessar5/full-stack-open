@@ -88,8 +88,6 @@ const App = () => {
     setBlogs(sortedBlogs)
   }
 
-  console.log(blogs)
-
   return (
     <div>
       <Notification message={errorMessage} type="error"/>

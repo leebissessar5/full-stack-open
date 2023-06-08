@@ -52,23 +52,34 @@ describe('Blog', () => {
 
       describe('and a blog exists', function () {
         beforeEach(function () {
-          cy.createBlog({ title: 'first blog', author: 'cypress', url: 'http://example.com' })
-          cy.createBlog({ title: 'second blog', author: 'cypress', url: 'http://example.com' })
-          cy.createBlog({ title: 'third blog', author: 'cypress', url: 'http://example.com' })
+          cy.createBlog({ title: 'First blog', author: 'cypress', url: 'http://example.com' })
+          cy.createBlog({ title: 'Second blog', author: 'cypress', url: 'http://example.com' })
+          cy.createBlog({ title: 'Third blog', author: 'cypress', url: 'http://example.com' })
         })
 
         it('users can like blogs', function () {
           // expand blog info
-          cy.contains('second blog').parent().find('button').contains('view').click()
-          cy.contains('second blog').parent().contains('likes 0')
+          cy.contains('Second blog').parent().find('button').contains('view').click()
+          cy.contains('Second blog').parent().contains('likes 0')
 
           // likes should be 1 after initial click
-          cy.contains('second blog').parent().find('button').contains('like').click()
-          cy.contains('second blog').parent().contains('likes 1')
+          cy.contains('Second blog').parent().find('button').contains('like').click()
+          cy.contains('Second blog').parent().contains('likes 1')
 
           // test a second time
-          cy.contains('second blog').parent().find('button').contains('like').click()
-          cy.contains('second blog').parent().contains('likes 2')
+          cy.contains('Second blog').parent().find('button').contains('like').click()
+          cy.contains('Second blog').parent().contains('likes 2')
+        })
+
+        it('blogs can be deleted', function () {
+          // Find the ID of the third blog
+          cy.request('GET', 'http://localhost:3003/api/blogs')
+            .then((response) => {
+              const blogs = response.body
+              const thirdBlogId = blogs[2].id
+              cy.deleteBlog(thirdBlogId)
+            })
+          cy.contains('Third Blog').should('not.exist')
         })
       })
     })
