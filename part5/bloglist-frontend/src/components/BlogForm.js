@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, onAdd }) => {
   const [newBlog, setNewBlog] = useState({
     title: '',
     author: '',
@@ -17,6 +17,9 @@ const BlogForm = ({ createBlog }) => {
       author: '',
       url: ''
     })
+    if (onAdd) {
+      onAdd()
+    }
   }
 
   return (

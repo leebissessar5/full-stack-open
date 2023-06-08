@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
@@ -8,6 +8,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 
 const App = () => {
+  const togglableRef = useRef()
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [infoMessage, setInfoMessage] = useState(null)
@@ -90,18 +91,29 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} type="error"/>
-      <Notification message={infoMessage}  type="info"/>
-      {!user && <LoginForm handleLogin={handleLogin}/>}
-      <h2>blogs</h2>
-      {user && loginInfo()}
-      {user && <Togglable buttonLabel="new blog">
-        <BlogForm createBlog={addBlog} />
-      </Togglable>}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} likesHandler={updateBlog} deleteHandler={removeBlog}/>
+      <Notification message={errorMessage} type="error" />
+      <Notification message={infoMessage} type="info" />
+      {!user && <LoginForm handleLogin={handleLogin} />}
+      {user && (
+        <>
+          <h2>blogs</h2>
+          {loginInfo()}
+          <Togglable buttonLabel="new blog" ref={togglableRef}>
+            <BlogForm createBlog={addBlog} onAdd={() => togglableRef.current.toggleVisibility()}/>
+          </Togglable>
+          {blogs.map(blog => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              user={user}
+              likesHandler={updateBlog}
+              deleteHandler={removeBlog}
+            />
+          ))}
+        </>
       )}
     </div>
+
   )
 }
 
