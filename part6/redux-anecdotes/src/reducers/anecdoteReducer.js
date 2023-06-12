@@ -35,6 +35,9 @@ const reducer = (state = initialState, action) => {
         note.id !== id ? note : changedNote 
       )
      }
+     case 'CREATE_NOTE': {
+      return [...state, action.payload]
+     }
     default:
       return state
   }
@@ -44,6 +47,13 @@ export const addVote = (id) => {
   return {
     type: "ADD_VOTE",
     payload: { id }
+  }
+}
+
+export const createNote = (content) => {
+  return {
+    type: "CREATE_NOTE",
+    payload: asObject(content)
   }
 }
 
