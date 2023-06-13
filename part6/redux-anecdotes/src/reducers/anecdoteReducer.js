@@ -10,6 +10,7 @@ const anecdoteSlice = createSlice({
       const anecdote = state.find(n => n.id === id)
       if (anecdote) {
         anecdote.votes += 1
+        anecdoteService.updateItem(anecdote, id)
       }
     },
     appendAnecdote(state, action) {

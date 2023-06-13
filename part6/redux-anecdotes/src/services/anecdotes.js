@@ -13,8 +13,14 @@ const createNew = async (content) => {
   return response.data
 }
 
+const updateItem = async (item, id) => {
+  const response = await axios.put(`${baseUrl}/${id}`, item)
+  return response.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   createNew,
+  updateItem
 }
