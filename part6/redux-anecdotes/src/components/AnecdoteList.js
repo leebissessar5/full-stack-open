@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
+import { showNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
     const anecdotes = useSelector(({ anecdotes, filter}) => {
@@ -8,7 +9,10 @@ const AnecdoteList = () => {
         : anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
     })
     const dispatch = useDispatch()
-    const vote = (id) => { dispatch(addVote(id)) }
+    const vote = (id, content) => { 
+        dispatch(addVote(id))
+        dispatch(showNotification(`You voted "${content}"`)) 
+    }
 
     const sortedAnecdotes = anecdotes
     .slice() // create a new copy of the array
@@ -22,7 +26,7 @@ const AnecdoteList = () => {
                 <div>{anecdote.content}</div>
                 <div>
                 has {anecdote.votes}
-                <button onClick={() => vote(anecdote.id)}>vote</button>
+                <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
                 </div>
             </div>
             ))}
