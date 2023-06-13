@@ -11,7 +11,7 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
     const vote = (id, content) => { 
         dispatch(addVote(id))
-        dispatch(showNotification(`You voted "${content}"`)) 
+        dispatch(showNotification(`You voted "${content}"`, 3)) 
     }
 
     const sortedAnecdotes = anecdotes
