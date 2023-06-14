@@ -9,7 +9,6 @@
     "axios": "^1.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.3",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -18,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server -p3001 --watch db.json"
+    "server": "node server"
   },
   "eslintConfig": {
     "extends": [

@@ -9,6 +9,9 @@ const AnecdoteForm = () => {
   const newAnecdoteMutation = useMutation(createNew, {
     onSuccess: () => {
       queryClient.invalidateQueries('anecdotes')
+    },
+    onError: (error) => {
+      dispatch({ type: 'DISPLAY', payload: error.response.data.error })
     }
   })
 
