@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { createNew } from "../requests"
+import { useNotificationDispatch } from '../components/NotificationContext'
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient()
+  const dispatch = useNotificationDispatch()
 
   const newAnecdoteMutation = useMutation(createNew, {
     onSuccess: () => {
@@ -16,6 +18,7 @@ const AnecdoteForm = () => {
     event.target.anecdote.value = ''
     console.log('new anecdote')
     newAnecdoteMutation.mutate(content)
+    dispatch({ type: 'DISPLAY', payload: `You added "${content}"`})
 }
 
   return (
