@@ -6,23 +6,23 @@ const AnecdoteForm = () => {
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
 
-  const newAnecdoteMutation = useMutation(createNew, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('anecdotes')
-    },
-    onError: (error) => {
-      dispatch({ type: 'DISPLAY', payload: error.response.data.error })
-    }
-  })
+  const newAnecdoteMutation = useMutation(createNew)
 
   const onCreate = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     console.log('new anecdote')
-    newAnecdoteMutation.mutate(content)
-    dispatch({ type: 'DISPLAY', payload: `You added "${content}"`})
-}
+    newAnecdoteMutation.mutate(content, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('anecdotes')
+        dispatch({ type: 'DISPLAY', payload: `You added "${content}"` })
+      },
+      onError: (error) => {
+        dispatch({ type: 'DISPLAY', payload: error.response.data.error })
+      }
+    })
+  }
 
   return (
     <div>
