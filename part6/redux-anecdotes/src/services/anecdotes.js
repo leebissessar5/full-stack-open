@@ -13,8 +13,8 @@ const createNew = async (content) => {
   return response.data
 }
 
-const updateItem = async (item, id) => {
-  const response = await axios.put(`${baseUrl}/${id}`, item)
+const updateItem = async (item) => {
+  const response = await axios.put(`${baseUrl}/${item.id}`, item)
   return response.data
 }
 
