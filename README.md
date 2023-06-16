@@ -12,3 +12,4 @@ Course hosted by the Department of Computer Science at the University of Helsink
 ### [Part 4 - Testing Express servers, user administration](./part4/)
 ### [Part 5 - Testing React apps](./part5/)
 ### [Part 6 - Advanced state management](./part6)
+### [Part 7 - React router, custom hooks, styling app with CSS and webpack](./part7/)
