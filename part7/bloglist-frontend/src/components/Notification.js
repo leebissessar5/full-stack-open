@@ -1,4 +1,4 @@
-import { useNotificationValue } from '../reducers/notificationContext'
+import { useNotificationValue } from './NotificationContext'
 
 const Notification = () => {
   const { errorMessage, infoMessage } = useNotificationValue()

@@ -7,7 +7,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 
-import { useNotificationDispatch } from './reducers/notificationContext'
+import { useNotificationDispatch } from './components/NotificationContext'
 
 const App = () => {
   const togglableRef = useRef()
