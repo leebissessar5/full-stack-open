@@ -38,6 +38,11 @@ export const NotificationContextProvider = (props) => {
     initialState
   )
 
+  useEffect(() => {
+    showNotification(notification.errorMessage, 'RESET_ERROR_MESSAGE')
+    showNotification(notification.infoMessage, 'RESET_INFO_MESSAGE')
+  }, [notification])
+
   const showNotification = (message, action) => {
     if (message) {
       const timer = setTimeout(() => {
@@ -47,11 +52,6 @@ export const NotificationContextProvider = (props) => {
       return () => clearTimeout(timer)
     }
   }
-
-  useEffect(() => {
-    showNotification(notification.errorMessage, 'RESET_ERROR_MESSAGE')
-    showNotification(notification.infoMessage, 'RESET_INFO_MESSAGE')
-  }, [notification])
 
   return (
     <NotificationContext.Provider value={[notification, notificationDispatch]}>

@@ -1,18 +1,20 @@
-import { useRef } from 'react'
-import { useQueryClient } from 'react-query'
+//import { useRef } from 'react'
+//import { useQueryClient } from 'react-query'
 import Notification from './components/Notification'
-import BlogForm from './components/BlogForm'
+//import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Togglable from './components/Togglable'
+//import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
+import UserList from './components/UserList'
 import { useUserValue, useUserDispatch } from './components/UserContext'
 import { useNotificationDispatch } from './components/NotificationContext'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
-  const togglableRef = useRef()
-  const queryClient = useQueryClient()
+  //const togglableRef = useRef()
+  //const queryClient = useQueryClient()
   const user = useUserValue()
   const setUser = useUserDispatch()
 
@@ -36,23 +38,23 @@ const App = () => {
     }
   }
 
-  const addBlog = async (blogObject) => {
-    try {
-      await blogService.create(blogObject)
-      // Invalidate the 'blogs' query to trigger a refetch
-      queryClient.invalidateQueries('blogs')
+  // const addBlog = async (blogObject) => {
+  //   try {
+  //     await blogService.create(blogObject)
+  //     // Invalidate the 'blogs' query to trigger a refetch
+  //     queryClient.invalidateQueries('blogs')
 
-      notificationDispatch({
-        payload: `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
-        type: 'SET_INFO_MESSAGE',
-      })
-    } catch (error) {
-      notificationDispatch({
-        payload: 'Failed to add new blog',
-        type: 'SET_ERROR_MESSAGE',
-      })
-    }
-  }
+  //     notificationDispatch({
+  //       payload: `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
+  //       type: 'SET_INFO_MESSAGE',
+  //     })
+  //   } catch (error) {
+  //     notificationDispatch({
+  //       payload: 'Failed to add new blog',
+  //       type: 'SET_ERROR_MESSAGE',
+  //     })
+  //   }
+  // }
 
   const handleLogout = (event) => {
     event.preventDefault()
@@ -68,10 +70,10 @@ const App = () => {
   const loginInfo = () => (
     <div>
       <form onSubmit={handleLogout}>
-        <p>
-          {user.name} logged in
+        <div>
+          <p>{user.name} logged in</p>
           <button type="submit">logout</button>
-        </p>
+        </div>
       </form>
     </div>
   )
@@ -84,13 +86,17 @@ const App = () => {
         <>
           <h2>blogs</h2>
           {loginInfo()}
-          <Togglable buttonLabel="new blog" ref={togglableRef}>
+          {/* <Togglable buttonLabel="new blog" ref={togglableRef}>
             <BlogForm
               createBlog={addBlog}
               onAdd={() => togglableRef.current.toggleVisibility()}
             />
-          </Togglable>
-          <BlogList user={user} />
+          </Togglable> */}
+          <Routes>
+            <Route path="/" element={<BlogList user={user} />} />
+            <Route path="/users" element={<UserList />} />
+            <Route path="/blogs/:id" element={<BlogList user={user} />} />
+          </Routes>
         </>
       )}
     </div>

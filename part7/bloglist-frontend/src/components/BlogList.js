@@ -52,7 +52,6 @@ const BlogList = ({ user }) => {
 
   const blogs = result.data
   const sortedBlogs = blogs.slice().sort((a, b) => b.likes - a.likes)
-
   return (
     <>
       {sortedBlogs.map((blog) => (
