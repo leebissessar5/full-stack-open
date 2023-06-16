@@ -1,18 +1,30 @@
 import { useField } from "../hooks"
 
 const CreateNew = (props) => {
-    const content = useField('')
-    const author = useField('')
-    const info = useField('')
+    const contentField = useField('')
+    const authorField = useField('')
+    const infoField = useField('')
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      props.addNew({
-        content: content.value,
-        author: author.vaue,
-        info: info.value,
-        votes: 0
-      })
+      const content = contentField.input.value
+      const author = authorField.input.value
+      const info = infoField.input.value
+      if (content && author && info) {
+        props.addNew({
+          content,
+          author,
+          info,
+          votes: 0
+        })
+      }
+    }
+
+    const handleReset = (e) => {
+      e.preventDefault()
+      contentField.onReset(e)
+      authorField.onReset(e)
+      infoField.onReset(e)
     }
   
     return (
@@ -21,17 +33,18 @@ const CreateNew = (props) => {
         <form onSubmit={handleSubmit}>
           <div>
             content
-            <input {...content} />
+            <input {...contentField.input} required />
           </div>
           <div>
             author
-            <input {...author} />
+            <input {...authorField.input} required />
           </div>
           <div>
             url for more info
-            <input {...info} />
+            <input {...infoField.input} required />
           </div>
           <button>create</button>
+          <button onClick={handleReset}>reset</button>
         </form>
       </div>
     )
