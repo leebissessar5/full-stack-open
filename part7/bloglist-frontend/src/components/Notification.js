@@ -1,9 +1,14 @@
-const Notification = ({ message, type }) => {
-  if (message === null) {
-    return null
-  }
+import { useNotificationValue } from '../reducers/notificationContext'
 
-  return <div className={type}>{message}</div>
+const Notification = () => {
+  const { errorMessage, infoMessage } = useNotificationValue()
+
+  return (
+    <>
+      {errorMessage && <div className="error">{errorMessage}</div>}
+      {infoMessage && <div className="info">{infoMessage}</div>}
+    </>
+  )
 }
 
 export default Notification

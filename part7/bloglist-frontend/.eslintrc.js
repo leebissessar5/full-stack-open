@@ -16,8 +16,6 @@ module.exports = {
   },
   plugins: ['react', 'jest', 'cypress', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
-    indent: ['error', 4],
     'linebreak-style': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'never'],

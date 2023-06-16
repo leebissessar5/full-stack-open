@@ -7,19 +7,14 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 
+import { useNotificationDispatch } from './reducers/notificationContext'
+
 const App = () => {
   const togglableRef = useRef()
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [infoMessage, setInfoMessage] = useState(null)
   const [user, setUser] = useState(null)
 
-  const showNotification = (notification, setNotification) => {
-    setNotification(notification)
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
+  const notificationDispatch = useNotificationDispatch()
 
   const handleLogin = async (username, password) => {
     try {
@@ -27,9 +22,15 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      showNotification('login success', setInfoMessage)
+      notificationDispatch({
+        payload: 'login success',
+        type: 'SET_INFO_MESSAGE',
+      })
     } catch (exception) {
-      showNotification('wrong username or password', setErrorMessage)
+      notificationDispatch({
+        payload: 'wrong username or password',
+        type: 'SET_ERROR_MESSAGE',
+      })
     }
   }
 
@@ -48,12 +49,15 @@ const App = () => {
       await blogService.create(blogObject)
       getBlogs()
 
-      showNotification(
-        `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
-        setInfoMessage
-      )
+      notificationDispatch({
+        payload: `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
+        type: 'SET_INFO_MESSAGE',
+      })
     } catch (error) {
-      showNotification('Failed to add new blog', setErrorMessage)
+      notificationDispatch({
+        payload: 'Failed to add new blog',
+        type: 'SET_ERROR_MESSAGE',
+      })
     }
   }
 
@@ -93,8 +97,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} type="error" />
-      <Notification message={infoMessage} type="info" />
+      <Notification />
       {!user && <LoginForm handleLogin={handleLogin} />}
       {user && (
         <>
