@@ -11,18 +11,6 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
     marginBottom: 5,
   }
 
-  const updateLikes = () => {
-    likesHandler(
-      {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1,
-      },
-      blog.id
-    )
-  }
-
   const toggleVisibility = () => {
     setVisible(!visible)
   }
@@ -39,7 +27,7 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
             <div>{blog.url}</div>
             <div>
               likes {blog.likes}{' '}
-              {user && <button onClick={updateLikes}>like</button>}
+              {user && <button onClick={likesHandler}>like</button>}
             </div>
             <div>{blog.user.name}</div>
             {user && user.username === blog.user.username && (
@@ -50,7 +38,7 @@ const Blog = ({ blog, user, likesHandler, deleteHandler }) => {
                       `Remove blog ${blog.title} by ${blog.author}?`
                     )
                   ) {
-                    deleteHandler(blog.id)
+                    deleteHandler()
                   }
                 }}
               >

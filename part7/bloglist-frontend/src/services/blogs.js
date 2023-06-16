@@ -19,19 +19,25 @@ const getAll = async () => {
   return response.data
 }
 
-const update = async (blogObject, id) => {
+const updateItem = async (blogObject) => {
   const response = await axios.put(
-    `${baseUrl}/${id}`,
+    `${baseUrl}/${blogObject.id}`,
     blogObject,
     config(token)
   )
   return response.data
 }
 
-const remove = async (id) => {
+const removeItem = async (id) => {
   const response = await axios.delete(`${baseUrl}/${id}`, config(token))
   return response.data
 }
 
-const blogService = { getAll, create, setToken, update, remove }
+const blogService = {
+  getAll,
+  create,
+  setToken,
+  updateItem,
+  removeItem,
+}
 export default blogService

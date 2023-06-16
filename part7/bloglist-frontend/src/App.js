@@ -1,17 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
+import BlogList from './components/BlogList'
 
 import { useNotificationDispatch } from './components/NotificationContext'
 
 const App = () => {
   const togglableRef = useRef()
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
   const notificationDispatch = useNotificationDispatch()
@@ -41,13 +40,11 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
-    getBlogs()
   }, [])
 
   const addBlog = async (blogObject) => {
     try {
       await blogService.create(blogObject)
-      getBlogs()
 
       notificationDispatch({
         payload: `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
@@ -59,16 +56,6 @@ const App = () => {
         type: 'SET_ERROR_MESSAGE',
       })
     }
-  }
-
-  const updateBlog = async (blog, id) => {
-    await blogService.update(blog, id)
-    getBlogs()
-  }
-
-  const removeBlog = async (id) => {
-    await blogService.remove(id)
-    getBlogs()
   }
 
   const handleLogout = (event) => {
@@ -89,12 +76,6 @@ const App = () => {
     </div>
   )
 
-  const getBlogs = async () => {
-    const allBlogs = await blogService.getAll()
-    const sortedBlogs = allBlogs.sort((a, b) => b.likes - a.likes)
-    setBlogs(sortedBlogs)
-  }
-
   return (
     <div>
       <Notification />
@@ -109,15 +90,7 @@ const App = () => {
               onAdd={() => togglableRef.current.toggleVisibility()}
             />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              user={user}
-              likesHandler={updateBlog}
-              deleteHandler={removeBlog}
-            />
-          ))}
+          <BlogList user={user} />
         </>
       )}
     </div>
