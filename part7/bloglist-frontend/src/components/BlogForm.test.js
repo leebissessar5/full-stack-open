@@ -25,8 +25,7 @@ describe('BlogForm component testing', () => {
     expect(createBlog.mock.calls[0][0]).toEqual({
       title: 'testing title field...',
       author: 'testing author field...',
-      url: 'testing url field...'
+      url: 'testing url field...',
     })
   })
-
 })

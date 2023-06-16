@@ -22,12 +22,9 @@ const App = () => {
   }
 
   const handleLogin = async (username, password) => {
-
     try {
       const user = await loginService.login({ username, password })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
       showNotification('login success', setInfoMessage)
@@ -51,7 +48,10 @@ const App = () => {
       await blogService.create(blogObject)
       getBlogs()
 
-      showNotification(`a new blog ${blogObject.title} by ${blogObject.author} successfully added`, setInfoMessage)
+      showNotification(
+        `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
+        setInfoMessage
+      )
     } catch (error) {
       showNotification('Failed to add new blog', setErrorMessage)
     }
@@ -77,8 +77,10 @@ const App = () => {
   const loginInfo = () => (
     <div>
       <form onSubmit={handleLogout}>
-        <p>{user.name} logged in
-          <button type="submit">logout</button></p>
+        <p>
+          {user.name} logged in
+          <button type="submit">logout</button>
+        </p>
       </form>
     </div>
   )
@@ -99,9 +101,12 @@ const App = () => {
           <h2>blogs</h2>
           {loginInfo()}
           <Togglable buttonLabel="new blog" ref={togglableRef}>
-            <BlogForm createBlog={addBlog} onAdd={() => togglableRef.current.toggleVisibility()}/>
+            <BlogForm
+              createBlog={addBlog}
+              onAdd={() => togglableRef.current.toggleVisibility()}
+            />
           </Togglable>
-          {blogs.map(blog => (
+          {blogs.map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
@@ -113,7 +118,6 @@ const App = () => {
         </>
       )}
     </div>
-
   )
 }
 
