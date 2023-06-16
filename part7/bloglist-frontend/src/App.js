@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { useQueryClient } from 'react-query'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -6,12 +7,14 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
-
+import { useUserValue, useUserDispatch } from './components/UserContext'
 import { useNotificationDispatch } from './components/NotificationContext'
 
 const App = () => {
   const togglableRef = useRef()
-  const [user, setUser] = useState(null)
+  const queryClient = useQueryClient()
+  const user = useUserValue()
+  const setUser = useUserDispatch()
 
   const notificationDispatch = useNotificationDispatch()
 
@@ -20,7 +23,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      setUser({ type: 'SET_USER', payload: user })
       notificationDispatch({
         payload: 'login success',
         type: 'SET_INFO_MESSAGE',
@@ -33,18 +36,11 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
-
   const addBlog = async (blogObject) => {
     try {
       await blogService.create(blogObject)
+      // Invalidate the 'blogs' query to trigger a refetch
+      queryClient.invalidateQueries('blogs')
 
       notificationDispatch({
         payload: `a new blog ${blogObject.title} by ${blogObject.author} successfully added`,
@@ -62,7 +58,11 @@ const App = () => {
     event.preventDefault()
 
     window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+    setUser({ type: 'REMOVE_USER' })
+    notificationDispatch({
+      payload: 'Logged out',
+      type: 'SET_INFO_MESSAGE',
+    })
   }
 
   const loginInfo = () => (
