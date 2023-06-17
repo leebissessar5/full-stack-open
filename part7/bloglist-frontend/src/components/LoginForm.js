@@ -28,15 +28,18 @@ const LoginForm = ({ handleLogin }) => {
           width: '300px',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           backgroundColor: '#1976d2',
           borderRadius: '8px',
           padding: '30px',
         }}
       >
+        <h2 style={{ color: '#FFF', marginBottom: '20px', marginTop: '0px' }}>
+          BlogList App
+        </h2>
         <label
           htmlFor="username"
-          style={{ color: '#FFF', marginBottom: '10px' }}
+          style={{ color: '#FFF', marginBottom: '10px', fontSize: '18px' }}
         >
           Username
         </label>
@@ -51,12 +54,17 @@ const LoginForm = ({ handleLogin }) => {
             border: 'none',
             borderRadius: '4px',
             backgroundColor: '#FFF',
-            width: '100%',
+            width: '90%',
           }}
         />
         <label
           htmlFor="password"
-          style={{ color: '#FFF', marginBottom: '10px', marginTop: '10px' }}
+          style={{
+            color: '#FFF',
+            marginBottom: '10px',
+            marginTop: '20px',
+            fontSize: '18px',
+          }}
         >
           Password
         </label>
@@ -71,7 +79,7 @@ const LoginForm = ({ handleLogin }) => {
             border: 'none',
             borderRadius: '4px',
             backgroundColor: '#FFF',
-            width: '100%',
+            width: '90%',
           }}
         />
         <Button
@@ -79,9 +87,10 @@ const LoginForm = ({ handleLogin }) => {
           type="submit"
           variant="contained"
           style={{
-            marginTop: '10px',
+            marginTop: '20px',
             backgroundColor: '#FFF',
             color: '#000',
+            width: '50%',
           }}
         >
           Login
