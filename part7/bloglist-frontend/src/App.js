@@ -88,14 +88,21 @@ const App = () => {
         <>
           <h2>blogs</h2>
           {loginInfo()}
-          <Togglable buttonLabel="new blog" ref={togglableRef}>
-            <BlogForm
-              createBlog={addBlog}
-              onAdd={() => togglableRef.current.toggleVisibility()}
-            />
-          </Togglable>
           <Routes>
-            <Route path="/" element={<BlogList user={user} />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <Togglable buttonLabel="create new" ref={togglableRef}>
+                    <BlogForm
+                      createBlog={addBlog}
+                      onAdd={() => togglableRef.current.toggleVisibility()}
+                    />
+                  </Togglable>
+                  <BlogList user={user} />
+                </>
+              }
+            />
             <Route path="/users" element={<UserList />} />
             <Route path="/blogs/:id"></Route>
             <Route path="/users/:id" element={<UserView />}></Route>
