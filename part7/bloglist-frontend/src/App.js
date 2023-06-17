@@ -10,7 +10,7 @@ import BlogList from './components/BlogList'
 import UserList from './components/UserList'
 import { useUserValue, useUserDispatch } from './components/UserContext'
 import { useNotificationDispatch } from './components/NotificationContext'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import UserView from './components/UserView'
 import Blog from './components/Blog'
 
@@ -73,22 +73,41 @@ const App = () => {
   const loginInfo = () => (
     <div>
       <form onSubmit={handleLogout}>
-        <div>
-          <p>{user.name} logged in</p>
-          <button type="submit">logout</button>
+        <div style={padding}>
+          <p>
+            {user.name} logged in <button type="submit">logout</button>
+          </p>
         </div>
       </form>
     </div>
   )
 
+  const padding = {
+    padding: 5,
+  }
+
   return (
     <div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          backgroundColor: 'aquamarine',
+        }}
+      >
+        <Link style={padding} to="/">
+          blogs
+        </Link>
+        <Link style={padding} to="/users">
+          users
+        </Link>
+        {user && loginInfo()}
+      </div>
       <Notification />
       {!user && <LoginForm handleLogin={handleLogin} />}
       {user && (
         <>
-          <h2>blogs</h2>
-          {loginInfo()}
+          <h2>blog app</h2>
           <Routes>
             <Route
               path="/"
