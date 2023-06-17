@@ -12,11 +12,11 @@ const UserView = () => {
   } = useQuery('users', userService.getAll)
 
   if (isLoading) {
-    return <div>Loading users...</div>
+    return <div>Loading user...</div>
   }
 
   if (isError) {
-    return <div>Error loading users</div>
+    return <div>Error loading user</div>
   }
 
   const user = match ? users.find((user) => user.id === match.params.id) : null

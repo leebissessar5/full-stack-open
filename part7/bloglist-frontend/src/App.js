@@ -12,6 +12,7 @@ import { useUserValue, useUserDispatch } from './components/UserContext'
 import { useNotificationDispatch } from './components/NotificationContext'
 import { Routes, Route } from 'react-router-dom'
 import UserView from './components/UserView'
+import Blog from './components/Blog'
 
 const App = () => {
   const togglableRef = useRef()
@@ -99,12 +100,12 @@ const App = () => {
                       onAdd={() => togglableRef.current.toggleVisibility()}
                     />
                   </Togglable>
-                  <BlogList user={user} />
+                  <BlogList />
                 </>
               }
             />
             <Route path="/users" element={<UserList />} />
-            <Route path="/blogs/:id"></Route>
+            <Route path="/blogs/:id" element={<Blog user={user} />}></Route>
             <Route path="/users/:id" element={<UserView />}></Route>
           </Routes>
         </>

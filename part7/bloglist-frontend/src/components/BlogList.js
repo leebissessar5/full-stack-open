@@ -1,43 +1,14 @@
-import { useNotificationDispatch } from './NotificationContext'
 import blogService from '../services/blogs'
-import { useQuery, useQueryClient, useMutation } from 'react-query'
-import Blog from './Blog'
+import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
-const BlogList = ({ user }) => {
-  const queryClient = useQueryClient()
-  const dispatch = useNotificationDispatch()
-
-  const updateBlogMutation = useMutation(blogService.updateItem, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('blogs')
-    },
-  })
-  const removeBlogMutation = useMutation(blogService.removeItem, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('blogs')
-    },
-  })
-
-  const handleLikes = (blog) => {
-    updateBlogMutation.mutate({
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-      id: blog.id,
-    })
-    dispatch({
-      type: 'SET_INFO_MESSAGE',
-      payload: `blog '${blog.title}' liked`,
-    })
-  }
-
-  const handleDelete = (blog) => {
-    removeBlogMutation.mutate(blog.id)
-    dispatch({
-      type: 'SET_INFO_MESSAGE',
-      payload: `blog '${blog.title}' deleted`,
-    })
+const BlogList = () => {
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
   }
 
   const result = useQuery('blogs', blogService.getAll, { retry: false })
@@ -55,13 +26,9 @@ const BlogList = ({ user }) => {
   return (
     <>
       {sortedBlogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user}
-          likesHandler={() => handleLikes(blog)}
-          deleteHandler={() => handleDelete(blog)}
-        />
+        <p key={blog.id} style={blogStyle}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        </p>
       ))}
     </>
   )
