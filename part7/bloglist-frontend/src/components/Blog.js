@@ -105,7 +105,11 @@ const Blog = ({ user }) => {
 
   return (
     <Box className="blog">
-      <Typography variant="h4" component="h2" sx={{ marginBottom: '1rem' }}>
+      <Typography
+        variant="h4"
+        component="h2"
+        sx={{ marginBottom: '1rem', marginTop: '20px' }}
+      >
         {blog.title}
       </Typography>
       <Link
@@ -116,7 +120,7 @@ const Blog = ({ user }) => {
       >
         {blog.url}
       </Link>
-      <Box sx={{ marginBottom: '1rem' }}>
+      <Box sx={{ marginBottom: '1rem', marginTop: '10px' }}>
         {blog.likes} likes
         {user && (
           <Button
