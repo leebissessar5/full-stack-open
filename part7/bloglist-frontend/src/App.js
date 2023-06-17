@@ -95,7 +95,12 @@ const App = () => {
 
   return (
     <Container>
-      {!user && <LoginForm handleLogin={handleLogin} />}
+      {!user && (
+        <>
+          <Notification />
+          <LoginForm handleLogin={handleLogin} />
+        </>
+      )}
       {user && (
         <>
           <AppBar position="static">
