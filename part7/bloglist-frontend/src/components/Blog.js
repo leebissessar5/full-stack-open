@@ -163,15 +163,16 @@ const Blog = ({ user }) => {
           onChange={(event) => setCommentInput(event.target.value)}
           variant="outlined"
           size="small"
-          fullWidth
-          sx={{ marginBottom: '1rem' }}
+          sx={{ marginBottom: '1rem', width: '40%' }}
         />
-        <Button type="submit" variant="contained" size="small">
-          Add Comment
-        </Button>
+        <div>
+          <Button type="submit" variant="contained" size="small">
+            Add Comment
+          </Button>
+        </div>
       </form>
 
-      {blog.comments && (
+      {blog.comments.length > 0 && (
         <Paper sx={{ padding: '1rem', marginBottom: '1rem' }}>
           <List>
             {blog.comments.map((comment, idx) => (

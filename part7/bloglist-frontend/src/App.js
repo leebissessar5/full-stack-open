@@ -142,7 +142,7 @@ const App = () => {
           </AppBar>
           <Notification />
 
-          <h2>blog app</h2>
+          <h2>BlogList App</h2>
           <Routes>
             <Route
               path="/"
