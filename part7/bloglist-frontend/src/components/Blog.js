@@ -110,7 +110,14 @@ const Blog = ({ user }) => {
         component="h2"
         sx={{ marginBottom: '1rem', marginTop: '20px' }}
       >
-        {blog.title}
+        {blog.title}{' '}
+        <Typography
+          variant="subtitle1"
+          component="span"
+          sx={{ fontStyle: 'italic' }}
+        >
+          added by {blog.user.name}
+        </Typography>
       </Typography>
       <Link
         href={blog.url}
@@ -133,13 +140,6 @@ const Blog = ({ user }) => {
           </Button>
         )}
       </Box>
-      <Typography
-        variant="subtitle1"
-        component="div"
-        sx={{ marginBottom: '1rem' }}
-      >
-        added by {blog.user.name}
-      </Typography>
       {user && user.username === blog.user.username && (
         <Button
           onClick={() => {
