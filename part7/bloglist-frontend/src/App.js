@@ -13,6 +13,14 @@ import { useNotificationDispatch } from './components/NotificationContext'
 import { Routes, Route, Link } from 'react-router-dom'
 import UserView from './components/UserView'
 import Blog from './components/Blog'
+import {
+  Container,
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+} from '@mui/material'
 
 const App = () => {
   const togglableRef = useRef()
@@ -73,40 +81,62 @@ const App = () => {
   const loginInfo = () => (
     <div>
       <form onSubmit={handleLogout}>
-        <div style={padding}>
-          <p>
-            {user.name} logged in <button type="submit">logout</button>
+        <div>
+          <p style={{ margin: 0 }}>
+            {user.name} logged in{' '}
+            <Button type="submit" variant="outlined" color="inherit">
+              Logout
+            </Button>
           </p>
         </div>
       </form>
     </div>
   )
 
-  const padding = {
-    padding: 5,
-  }
-
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          backgroundColor: 'aquamarine',
-        }}
-      >
-        <Link style={padding} to="/">
-          blogs
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user && loginInfo()}
-      </div>
-      <Notification />
+    <Container>
       {!user && <LoginForm handleLogin={handleLogin} />}
       {user && (
         <>
+          <AppBar position="static">
+            <Toolbar
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  '& > *': {
+                    pr: 2,
+                  },
+                }}
+              >
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  <Link
+                    to="/"
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    blogs
+                  </Link>
+                </Typography>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  <Link
+                    to="/users"
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    users
+                  </Link>
+                </Typography>
+              </Box>
+              <Box>{user && loginInfo()}</Box>
+            </Toolbar>
+          </AppBar>
+          <Notification />
+
           <h2>blog app</h2>
           <Routes>
             <Route
@@ -129,7 +159,7 @@ const App = () => {
           </Routes>
         </>
       )}
-    </div>
+    </Container>
   )
 }
 
