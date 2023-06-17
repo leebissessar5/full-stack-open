@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query'
 import { useMatch } from 'react-router-dom'
 import userService from '../services/users'
+import { Box, Typography, Paper, List, ListItem } from '@mui/material'
 
 const UserView = () => {
   const match = useMatch('/users/:id')
@@ -22,15 +23,26 @@ const UserView = () => {
   const user = match ? users.find((user) => user.id === match.params.id) : null
 
   return (
-    <div>
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
-        {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
-        ))}
-      </ul>
-    </div>
+    <Box>
+      <Typography variant="h4" component="h2" sx={{ marginBottom: '1rem' }}>
+        {user.name}
+      </Typography>
+      <Typography variant="h5" component="h3" sx={{ marginBottom: '0.5rem' }}>
+        added blogs
+      </Typography>
+      <Paper sx={{ padding: '1rem' }}>
+        <List>
+          {user.blogs.map((blog) => (
+            <ListItem
+              key={blog.id}
+              sx={{ borderRadius: '8px', marginBottom: '0.5rem' }}
+            >
+              {blog.title}
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
+    </Box>
   )
 }
 

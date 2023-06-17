@@ -4,6 +4,16 @@ import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { useNotificationDispatch } from './NotificationContext'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import {
+  Box,
+  Typography,
+  Link,
+  Button,
+  TextField,
+  List,
+  ListItem,
+  Paper,
+} from '@mui/material'
 
 const Blog = ({ user }) => {
   const [commentInput, setCommentInput] = useState('')
@@ -94,47 +104,83 @@ const Blog = ({ user }) => {
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
   return (
-    <div className="blog">
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
-      <div>
+    <Box className="blog">
+      <Typography variant="h4" component="h2" sx={{ marginBottom: '1rem' }}>
+        {blog.title}
+      </Typography>
+      <Link
+        href={blog.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{ marginBottom: '1rem' }}
+      >
+        {blog.url}
+      </Link>
+      <Box sx={{ marginBottom: '1rem' }}>
         {blog.likes} likes
-        {user && <button onClick={() => handleLikes(blog)}>like</button>}
-      </div>
-      <div>added by {blog.user.name}</div>
-      <div>
-        {user && user.username === blog.user.username && (
-          <button
-            onClick={() => {
-              if (
-                window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
-              ) {
-                handleDelete(blog)
-              }
-            }}
+        {user && (
+          <Button
+            onClick={() => handleLikes(blog)}
+            variant="contained"
+            size="small"
+            sx={{ marginLeft: '1rem' }}
           >
-            remove
-          </button>
+            Like
+          </Button>
         )}
-      </div>
-      <h3>comments</h3>
+      </Box>
+      <Typography
+        variant="subtitle1"
+        component="div"
+        sx={{ marginBottom: '1rem' }}
+      >
+        added by {blog.user.name}
+      </Typography>
+      {user && user.username === blog.user.username && (
+        <Button
+          onClick={() => {
+            if (
+              window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+            ) {
+              handleDelete(blog)
+            }
+          }}
+          variant="contained"
+          color="error"
+          size="small"
+          sx={{ marginBottom: '1rem' }}
+        >
+          Remove
+        </Button>
+      )}
+      <Typography variant="h5" component="h3" sx={{ marginBottom: '0.5rem' }}>
+        comments
+      </Typography>
       <form onSubmit={handleCommentSubmit}>
-        <input
+        <TextField
           type="text"
           value={commentInput}
           onChange={(event) => setCommentInput(event.target.value)}
+          variant="outlined"
+          size="small"
+          fullWidth
+          sx={{ marginBottom: '1rem' }}
         />
-        <button>add comment</button>
+        <Button type="submit" variant="contained" size="small">
+          Add Comment
+        </Button>
       </form>
 
       {blog.comments && (
-        <ul>
-          {blog.comments.map((comment, idx) => (
-            <li key={idx}>{comment}</li>
-          ))}
-        </ul>
+        <Paper sx={{ padding: '1rem', marginBottom: '1rem' }}>
+          <List>
+            {blog.comments.map((comment, idx) => (
+              <ListItem key={idx}>{comment}</ListItem>
+            ))}
+          </List>
+        </Paper>
       )}
-    </div>
+    </Box>
   )
 }
 
