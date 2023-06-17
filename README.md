@@ -3,6 +3,8 @@ Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go! This cou
 
 Course hosted by the Department of Computer Science at the University of Helsinki.
 
+[Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/beac76388346d845ba9823080636a652)
+
 ## Exercise Submissions
 
 ### [Part 0 - Fundamentals of Web apps](./part0)
