@@ -28,6 +28,13 @@ const updateItem = async (blogObject) => {
   return response.data
 }
 
+const addComment = async (blogId, comment) => {
+  const response = await axios.post(`${baseUrl}/${blogId}/comments`, {
+    comment,
+  })
+  return response.data
+}
+
 const removeItem = async (id) => {
   const response = await axios.delete(`${baseUrl}/${id}`, config(token))
   return response.data
@@ -39,5 +46,6 @@ const blogService = {
   setToken,
   updateItem,
   removeItem,
+  addComment,
 }
 export default blogService

@@ -3,8 +3,10 @@ import blogService from '../services/blogs'
 import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { useNotificationDispatch } from './NotificationContext'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const Blog = ({ user }) => {
+  const [commentInput, setCommentInput] = useState('')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
@@ -20,6 +22,16 @@ const Blog = ({ user }) => {
       queryClient.invalidateQueries('blogs')
     },
   })
+
+  const addCommentMutation = useMutation(
+    ([blogId, comment]) => blogService.addComment(blogId, comment),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('blogs')
+        setCommentInput('') // Clear comment input after successful comment addition
+      },
+    }
+  )
 
   const match = useMatch('/blogs/:id')
 
@@ -60,6 +72,25 @@ const Blog = ({ user }) => {
     navigate('/')
   }
 
+  const handleCommentSubmit = (event) => {
+    event.preventDefault()
+
+    if (!commentInput) {
+      dispatch({
+        type: 'SET_ERROR_MESSAGE',
+        payload: 'Comment cannot be empty',
+      })
+      return
+    }
+
+    addCommentMutation.mutate([blog.id, commentInput])
+
+    dispatch({
+      type: 'SET_INFO_MESSAGE',
+      payload: 'Comment added',
+    })
+  }
+
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
   return (
@@ -87,6 +118,15 @@ const Blog = ({ user }) => {
         )}
       </div>
       <h3>comments</h3>
+      <form onSubmit={handleCommentSubmit}>
+        <input
+          type="text"
+          value={commentInput}
+          onChange={(event) => setCommentInput(event.target.value)}
+        />
+        <button>add comment</button>
+      </form>
+
       {blog.comments && (
         <ul>
           {blog.comments.map((comment, idx) => (
