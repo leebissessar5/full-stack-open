@@ -11,6 +11,10 @@
     {
       "content": "test note",
       "id": 3
+    },
+    {
+      "content": "test note2",
+      "id": 4
     }
   ],
   "persons": [
@@ -28,6 +32,11 @@
       "name": "Ada Lovelace",
       "number": "22-124124",
       "id": 3
+    },
+    {
+      "name": "Arto Hellas",
+      "number": "123456",
+      "id": 4
     }
   ]
 }
