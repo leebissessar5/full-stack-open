@@ -141,8 +141,6 @@ const App = () => {
             </Toolbar>
           </AppBar>
           <Notification />
-
-          <h2>BlogList App</h2>
           <Routes>
             <Route
               path="/"
@@ -162,6 +160,19 @@ const App = () => {
             <Route path="/blogs/:id" element={<Blog user={user} />}></Route>
             <Route path="/users/:id" element={<UserView />}></Route>
           </Routes>
+          <footer
+            style={{
+              backgroundColor: 'transparent',
+              padding: '1rem',
+              marginTop: '10px',
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="body2" color="textSecondary">
+              &copy; {new Date().getFullYear()} BlogList App. All rights
+              reserved.
+            </Typography>
+          </footer>
         </>
       )}
     </Container>
