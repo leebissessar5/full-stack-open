@@ -86,6 +86,14 @@ const Blog = ({ user }) => {
           </button>
         )}
       </div>
+      <h3>comments</h3>
+      {blog.comments && (
+        <ul>
+          {blog.comments.map((comment, idx) => (
+            <li key={idx}>{comment}</li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
