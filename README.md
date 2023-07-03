@@ -81,6 +81,4 @@ If you're interested in further expanding your knowledge beyond the covered topi
 - [Part 10 - React Native](https://fullstackopen.com/en/part10)
 - [Part 11 - CI/CD](https://fullstackopen.com/en/part11)
 
-Please note that the completion of Parts 10 and 11 is not required to obtain the course certificate. The certificate is based on the successful completion of Parts 0-7 and other relevant exercises.
-
 Should there be any updates or changes regarding the completion of Parts 10 and 11, this section will be updated accordingly.
