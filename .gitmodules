@@ -4,3 +4,6 @@
 [submodule "part9"]
 	path = part9
 	url = https://github.com/leebissessar5/full-stack-open-part9-typescript
+[submodule "part12"]
+	path = part12
+	url = https://github.com/leebissessar5/full-stack-open-part12-containers-applications
