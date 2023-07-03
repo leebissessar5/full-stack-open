@@ -1,3 +1,6 @@
 [submodule "part8"]
 	path = part8
 	url = https://github.com/leebissessar5/full-stack-open-part8-graphql
+[submodule "part9"]
+	path = part9
+	url = https://github.com/leebissessar5/full-stack-open-part9-typescript
