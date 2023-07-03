@@ -47,24 +47,28 @@ Course hosted by the Department of Computer Science at the University of Helsink
 ### [Part 8 - GraphQL](https://github.com/leebissessar5/full-stack-open-part8-graphql)
 - Exercises Complete: 26/26 (**100%**)
 - Time Taken: at most 9 hrs
+- [Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/e28b42719990911dd37ab85ea1305c65)
 
 ### [Part 9 - Typescript](https://github.com/leebissessar5/full-stack-open-part9-typescript)
 - Exercises Complete: 29/29 (**100%**)
 - Time Taken: at most 14 hrs
+- [Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/a3fb8173016fb4fa98a4e4ba46afff2f)
 
 ### [Part 12 - Containers](https://github.com/leebissessar5/full-stack-open-part12-containers-applications)
 - Exercises Complete: 22/22 (**100%**)
 - Time Taken: at most 14 hrs
+- [Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fs-containers/en/432e9984b69807386fd273393f700f42)
 
 ### [Part 13 - Using Relational Databases](https://github.com/leebissessar5/full-stack-open-part13-using-relational-databases)
 - Exercises Complete: 24/24 (**100%**)
 - Time Taken: at most 12 hrs
+- [Course Certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fs-psql/en/fe321f447d4caf5aac4a749d2d279eba)
 
 ### Total (Parts 8, 9, 12, 13)
 - Exercises Complete: 101/101 (**100%**)
 - Time Taken: at most 49 hrs
 
-### Grand Total
+### Grand Total (Parts 1-7, 8, 9, 12, 13)
 - Exercises Complete: 254/254 (**100%**)
 - Time Taken: at most 116 hrs
 
