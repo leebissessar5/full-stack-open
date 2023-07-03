@@ -7,3 +7,6 @@
 [submodule "part12"]
 	path = part12
 	url = https://github.com/leebissessar5/full-stack-open-part12-containers-applications
+[submodule "part13"]
+	path = part13
+	url = https://github.com/leebissessar5/full-stack-open-part13-using-relational-databases
